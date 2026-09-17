@@ -32,7 +32,7 @@ export const StockLabel = ({ slug }: Props) => {
           &nbsp;
         </h1>
       ) : (
-        <h1 className={` ${titleFont.className} antialiased font-bold text-lg`}>
+        <h1 className={` ${titleFont.className} antialiased font-bold text-xl`}>
           Stock: {stock}
         </h1>
       )}

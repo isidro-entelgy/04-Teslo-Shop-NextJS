@@ -15,9 +15,9 @@ import { getProductBySlug } from "@/actions";
 import { AddToCart } from './ui/AddToCart';
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata(
@@ -25,7 +25,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const slug = params.slug;
+  const { slug } = await params;
 
   // fetch data
   const product = await getProductBySlug(slug);
@@ -40,13 +40,13 @@ export async function generateMetadata(
       title: product?.title ?? "Producto no encontrado",
       description: product?.description ?? "",
       // images: [], // https://misitioweb.com/products/image.png
-      images: [ `/products/${ product?.images[1] }`],
+      images: [`/products/${product?.images[1]}`],
     },
   };
 }
 
 export default async function ProductBySlugPage({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
   const product = await getProductBySlug(slug);
   console.log(product);
 
@@ -83,7 +83,7 @@ export default async function ProductBySlugPage({ params }: Props) {
 
         <p className="text-lg mb-5">${product.price}</p>
 
-        <AddToCart product={ product } />
+        <AddToCart product={product} />
 
         {/* Descripción */}
         <h3 className="font-bold text-sm">Descripción</h3>
